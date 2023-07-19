@@ -4,34 +4,34 @@ import threading
 import random
 import time
 from colorama import init, Fore, Back, Style    
-import msvcrt  # module spécifique à Windows pour la gestion des touches (remplacez-le par getch() sur d'autres systèmes)
+import msvcrt  # module specifique e Windows pour la gestion des touches (remplacez-le par getch() sur d'autres systemes)
 import sys
 import requests
 import base64
 
-init()  # Initialisez Colorama pour activer les séquences d'échappement ANSI sur Windows.
-################################################# fonction mère ######################
+init()  # Initialisez Colorama pour activer les sequences d'echappement ANSI sur Windows.
+################################################# fonction mere ######################
 def connexion():
     identifiant = input(Fore.RED + "quelle est votre identifiant >> \n")
     mdp = print("quelle est votre mot de passe >>")
     mdp = get_password()
     if identifiant == "Romaxolotl" and mdp == "1006":
-        connecté("admin", identifiant)
+        connecte("admin", identifiant)
     elif identifiant == "Luke" and mdp == "2009":
-        connecté("user", identifiant)
+        connecte("user", identifiant)
     else :
         print("identifiant ou/et mot de passe invalide")
         connexion()
 
-def connecté(arg1, arg2):
+def connecte(arg1, arg2):
     identifiant = arg2
     tipe = arg1
     print(Fore.BLUE + "bienvenue " + tipe + " " + identifiant )
-    for i in range(21):  # 11 étapes, y compris l'étape finale avec 10 #
+    for i in range(21):  # 11 etapes, y compris l'etape finale avec 10 #
         print('#' * i, end='\r')
-        time.sleep(0.25)  # Ajoutez un délai pour l'effet d'animation (0.5 seconde dans cet exemple)
+        time.sleep(0.25)  # Ajoutez un delai pour l'effet d'animation (0.5 seconde dans cet exemple)
     print("####################")
-    print("Chargement terminé!")
+    print("Chargement termine!")
     if tipe == "admin":
         suite_admin()
     elif tipe == "user":
@@ -40,21 +40,21 @@ def connecté(arg1, arg2):
 def get_password():
     mdp = ""
     while True:
-        # La fonction msvcrt.getch() récupère un caractère sans l'afficher à l'écran
+        # La fonction msvcrt.getch() r�cup�re un caract�re sans l'afficher � l'�cran
         char = msvcrt.getch().decode("utf-8")
         
-        # Si l'utilisateur appuie sur la touche Entrée (fin de la saisie du mot de passe)
+        # Si l'utilisateur appuie sur la touche Entr�e (fin de la saisie du mot de passe)
         if char == '\r':
-            print()  # Aller à la ligne pour la clarté
+            print()  # Aller � la ligne pour la clart�
             break
-        # Si l'utilisateur appuie sur la touche de retour arrière
+        # Si l'utilisateur appuie sur la touche de retour arri�re
         elif char == '\x08':
-            # Supprimer le dernier caractère du mot de passe et effacer l'astérisque correspondant
+            # Supprimer le dernier caract�re du mot de passe et effacer l'ast�risque correspondant
             if len(mdp) > 0:
                 mdp = mdp[:-1]
-                print('\b \b', end='', flush=True)  # Effacer le dernier caractère affiché
+                print('\b \b', end='', flush=True)  # Effacer le dernier caract�re affich�
         else:
-            # Ajouter le caractère à la chaîne du mot de passe et afficher un astérisque
+            # Ajouter le caract�re � la cha�ne du mot de passe et afficher un ast�risque
             mdp += char
             print('*', end='', flush=True)
     
@@ -67,16 +67,16 @@ def verif_system():
     return True
 
 def colora():
-    colora = input("entré une valeur entre : 0=noir , 7=gris, 1=bleu >> \n")
+    colora = input("entre une valeur entre : 0=noir , 7=gris, 1=bleu >> \n")
     colora = colora + ", F"
     set_console_color(colora)
 
 def delete_file(nom_fichier):
     try:
         os.remove(nom_fichier)
-        print(f"Le fichier '{nom_fichier}' a été supprimé avec succès.")
+        print(f"Le fichier '{nom_fichier}' a ete supprime avec succes.")
     except FileNotFoundError:
-        print(f"Le fichier '{nom_fichier}' n'a pas été trouvé.")
+        print(f"Le fichier '{nom_fichier}' n'a pas ete trouve.")
     except PermissionError:
         print(f"Vous n'avez pas la permission de supprimer le fichier '{nom_fichier}'.")
     except Exception as e:
@@ -88,14 +88,14 @@ def menu(arg1):
     print("help pour le menu help")
     print("Save pour sauvegarder")
     print("clear pour nettoyer la console")
-    print("reboot pour sauvegarder et redémarrer")
+    print("reboot pour sauvegarder et redemarrer")
     print("et beaucoup d'autres ...")
     print(Fore.RESET)
     if arg1 == "admin":
         print("En tant qu'administrateur, utilisez la commande ROS avant une commande d'admin")
         CMDa(arg1)
     else: 
-        print("En tant qu'utilisateur, vous n'avez pas accès aux fonctionnalités des administrateurs")
+        print("En tant qu'utilisateur, vous n'avez pas acces aux fonctionnalites des administrateurs")
         CMDa(arg1)
 
     
@@ -139,16 +139,16 @@ def CMDa(arg1):
         CMDa(arg1)
 
 def afficher_contenu_dossier(arg1="."):
-    # Vérifier si le dossier existe
+    # V�rifier si le dossier existe
     print(Fore.GREEN)
     if not os.path.exists(arg1):
         print(f"Le dossier '{arg1}' n'existe pas.")
         return
 
-    # Récupérer la liste des fichiers et dossiers dans le dossier
+    # R�cup�rer la liste des fichiers et dossiers dans le dossier
     contenu_dossier = os.listdir(arg1)
 
-    # Vérifier si le dossier est vide
+    # V�rifier si le dossier est vide
     if not contenu_dossier:
         print(f"Le dossier '{arg1}' est vide.")
         return
@@ -161,7 +161,7 @@ def afficher_contenu_dossier(arg1="."):
 def launchh(arg2, arg1="Scripts"):
     chemin_fichier = os.path.join(arg1, arg2)
     if os.path.exists(chemin_fichier):
-        print(f"Exécution du fichier '{chemin_fichier}'...")
+        print(f"Execution du fichier '{chemin_fichier}'...")
         os.system(f"python {chemin_fichier}")
     else:
         print(f"Le fichier '{chemin_fichier}' n'existe pas dans le dossier '{arg1}'.")
@@ -182,9 +182,9 @@ def islandX(repo_owner, repo_name, script_name):
         with open(script_path, 'w') as script_file:
             script_file.write(script_content)
         
-        print(f"Le script '{script_name}' a été téléchargé depuis GitHub et sauvegardé dans le dossier 'scripts'.")
+        print(f"Le script '{script_name}' a ete telecharge depuis GitHub et sauvegarde dans le dossier 'scripts'.")
     else:
-        print(f"Erreur lors du téléchargement du script '{script_name}' depuis GitHub.")
+        print(f"Erreur lors du telechargement du script '{script_name}' depuis GitHub.")
 
 ###################################################### MISE A JOUR  ################################
 
@@ -198,7 +198,7 @@ def get_latest_version(repo_owner, repo_name):
         response.raise_for_status()
         return response.json().get('tag_name')
     except requests.exceptions.RequestException as e:
-        print(f"Une erreur s'est produite lors de la récupération de la dernière version : {e}")
+        print(f"Une erreur s'est produite lors de la recuperation de la derniere version : {e}")
         return None
 
 def download_and_replace_script(download_url):
@@ -209,11 +209,11 @@ def download_and_replace_script(download_url):
         f.write(response.content)
 
     # Ajoutez ici le code pour sauvegarder l'ancien script (facultatif)
-    # Puis, remplacez l'ancien script par la mise à jour.
+    # Puis, remplacez l'ancien script par la mise � jour.
     os.replace('mon_script_maj.py', sys.argv[0])
 
 def maj(arg1):
-    # Mettez à jour ces valeurs avec les informations de votre référentiel GitHub
+    # Mettez � jour ces valeurs avec les informations de votre r�f�rentiel GitHub
     repo_owner = "Romaxolotl"
     repo_name = "RomOS"
 
@@ -225,10 +225,10 @@ def maj(arg1):
         print(f'Vous utilisez actuellement la version {current_version}.')
         download_url = f'https://github.com/{repo_owner}/{repo_name}/releases/latest/download/mon_script_maj.py'
         download_and_replace_script(download_url)
-        print("Le script a été mis à jour avec succès.")
+        print("Le script a ete mis e jour avec succes.")
         return latest_version
     else:
-        print(f'Vous utilisez déjà la dernière version ({current_version}).')
+        print(f'Vous utilisez deja la derniere version ({current_version}).')
         return arg1
 
 
@@ -313,9 +313,9 @@ def clear_line():
 def set_console_color(text_color, background_color):
     if os.name == 'nt':  # Pour Windows
         os.system(f"color {text_color}{background_color}")
-    else:  # Pour les systèmes UNIX (Linux, macOS, etc.)
+    else:  # Pour les syst�mes UNIX (Linux, macOS, etc.)
         print(f"\033[0;{text_color};{background_color}m", end='')
-# Les attributs de couleurs sont spécifiés par DEUX chiffres hexadécimaux -- le premier correspond à l’arrière-plan, le second au premier plan.
+# Les attributs de couleurs sont sp�cifi�s par DEUX chiffres hexad�cimaux -- le premier correspond � l�arri�re-plan, le second au premier plan.
 #   0 = Noir        8 = Gris
 #   1 = Bleu        9 = Bleu clair
 #    2 = Vert        A = Vert clair
@@ -355,26 +355,26 @@ def Bios():
 ################################################ CEVAD ##########################################
 def creator(arg1):
     chemin = arg1
-    # Créer un fichier et l'ouvrir en mode écriture
+    # Cr�er un fichier et l'ouvrir en mode �criture
     fichier = open(chemin, 'w')
-    fichier.close()  # Fermer le fichier après utilisation
+    fichier.close()  # Fermer le fichier apr�s utilisation
 
 def editor(arg1, arg2):
     chemin = arg1
-    # Ouvrir le fichier en mode ajout et écrire du contenu à la fin
+    # Ouvrir le fichier en mode ajout et �crire du contenu � la fin
     with open(chemin, 'a') as fichier:
         fichier.write(arg2 + "\n")
 
 def verificator(nom_fichier):
-    # Récupérer le chemin absolu du répertoire courant du script
+    # R�cup�rer le chemin absolu du r�pertoire courant du script
     repertoire_courant = os.path.dirname(os.path.abspath(__file__))
     
-    # Vérifier si le fichier existe dans le répertoire courant
+    # V�rifier si le fichier existe dans le r�pertoire courant
     chemin_fichier = os.path.join(repertoire_courant, nom_fichier)
     if os.path.exists(chemin_fichier):
-        print(f"Le fichier '{nom_fichier}' existe dans le répertoire courant.")
+        print(f"Le fichier '{nom_fichier}' existe dans le repertoire courant.")
     else:
-        print(f"Le fichier '{nom_fichier}' n'existe pas dans le répertoire courant.")
+        print(f"Le fichier '{nom_fichier}' n'existe pas dans le repertoire courant.")
         if nom_fichier == "Config.RomOS":
             print("LANCEMENT DU PROTOCOLE 3")
             protocole3()
@@ -389,12 +389,12 @@ def Averificator(nom_dossier):
         print("le dossier " + nom_dossier + " existe")
     else:
         os.makedirs(nom_dossier)
-        print(f"Le dossier '{nom_dossier}' a été créé.")
+        print(f"Le dossier '{nom_dossier}' a ete cree.")
     
 def deletor(file_path):
     try:
         os.remove(file_path)
-        print(f"Le fichier '{file_path}' a été supprimé avec succès.")
+        print(f"Le fichier '{file_path}' a ete supprime avec succes.")
     except OSError as e:
         print(f"Erreur lors de la suppression du fichier '{file_path}': {e}")
 ################################################## Object ##################################
@@ -413,7 +413,7 @@ def suite_admin():
         rr = read("Color")
         rr2 = read("ColorBG")
         set_console_color(rr2, rr)
-        print("couleur appliquer avec succées")
+        print("couleur appliquer avec succees")
         menu("admin")
     if commande1 == "NP":
         menu("admin")
