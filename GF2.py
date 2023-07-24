@@ -1,11 +1,12 @@
 import os
+from colorama import *
 
 def afficher_menu(repertoire_courant):
     print("")
 
 def afficher_contenu_repertoire(repertoire_courant):
     contenu = os.listdir(repertoire_courant)
-    print(f"Contenu du répertoire '{repertoire_courant}':")
+    print(Fore.BLUE + "Contenu du répertoire " + Fore.YELLOW + f"'{repertoire_courant}':" + Fore.RESET)
     for element in contenu:
         print(element)
 
@@ -22,7 +23,7 @@ def ouvrir_fichier_enfant(repertoire_courant, nom_fichier):
 def retourner_repertoire_parent(repertoire_courant):
     nouveau_repertoire = os.path.dirname(repertoire_courant)
     if nouveau_repertoire == repertoire_courant:
-        print("Vous êtes déjà à la racine du système.")
+        print(Fore.RED + "Vous êtes déjà à la racine du système." + Fore.RESET)
     else:
         return nouveau_repertoire
 
@@ -31,7 +32,7 @@ def naviguer_vers_repertoire_enfant(repertoire_courant, nom_repertoire):
     if os.path.isdir(chemin_repertoire):
         return chemin_repertoire
     else:
-        print(f"Le répertoire '{chemin_repertoire}' n'existe pas.")
+        print(Fore.RED + f"Le répertoire '{chemin_repertoire}' n'existe pas." + Fore.RESET)
         return repertoire_courant
     
 def charger_repertoire_different(repertoire_courant, chemin_repertoire):
@@ -39,7 +40,7 @@ def charger_repertoire_different(repertoire_courant, chemin_repertoire):
     if os.path.exists(chemin_nouveau_repertoire):
         return chemin_nouveau_repertoire
     else:
-        print(f"Le répertoire '{chemin_nouveau_repertoire}' n'existe pas.")
+        print(Fore.RED + f"Le répertoire '{chemin_nouveau_repertoire}' n'existe pas." + Fore.RESET)
         return repertoire_courant
 
 def afficher_lettres_de_lecteur():
@@ -47,11 +48,11 @@ def afficher_lettres_de_lecteur():
         import string
         lettres_disponibles = [f"{d}:" for d in string.ascii_uppercase if os.path.exists(f"{d}:\\")]
         if lettres_disponibles:
-            print("Lettres de disque utilisées :", " ".join(lettres_disponibles))
+            print(Fore.BLUE + f"Lettres de disque utilisées :" + Fore.RESET + " ".join(lettres_disponibles))
         else:
-            print("Aucune lettre de disque utilisée sur ce PC.")
+            print(Fore.RED + f"Aucune lettre de disque utilisée sur ce PC." + Fore.RESET)
     else:
-        print("Affichage des lettres de lecteur disponible uniquement sur Windows.")
+        print(Fore.RED + f"Affichage des lettres de lecteur disponible uniquement sur Windows." + Fore.RESET)
 
 def afficher_contenu_fichier(chemin_fichier):
     try:
@@ -60,36 +61,36 @@ def afficher_contenu_fichier(chemin_fichier):
             taille_fichier = os.path.getsize(chemin_fichier)
 
             if taille_fichier > taille_max_fichier_afficher:
-                confirmation = input(f"Le fichier '{chemin_fichier}' est assez volumineux ({taille_fichier} octets). Êtes-vous sûr de vouloir l'afficher ? (o/n) : ")
+                confirmation = input(Fore.YELLOW + f"Le fichier '{chemin_fichier}' est assez volumineux ({taille_fichier} octets). Êtes-vous sûr de vouloir l'afficher ? (o/n) : " + Fore.RESET)
                 if confirmation.lower() != 'o':
                     return
 
             with open(chemin_fichier, 'r') as fichier:
                 contenu = fichier.read()
-                print(f"Contenu du fichier '{chemin_fichier}':\n{contenu}")
+                print(Fore.BLUE + f"Contenu du fichier '{chemin_fichier}':" + Fore.RESET + f"\n{contenu}")
         else:
-            print(f"Le fichier '{chemin_fichier}' n'existe pas.")
+            print(Fore.RED + f"Le fichier '{chemin_fichier}' n'existe pas." +Fore.RESET)
     except Exception as e:
-        print(f"Une erreur est survenue lors de l'affichage du contenu : {e}")
+        print(Fore.RED + f"Une erreur est survenue lors de l'affichage du contenu : " + Fore.RESET + f"{e}")
 
 def ajouter_contenu_au_fichier(chemin_fichier, contenu):
     try:
         if not os.path.exists(chemin_fichier):
-            print(f"Le fichier '{chemin_fichier}' n'existe pas.")
+            print(Fore.RED + f"Le fichier '{chemin_fichier}' n'existe pas." + Fore.RESET)
         else:
             with open(chemin_fichier, 'a') as fichier:
                 contenu_final = contenu.replace("\\n", "\n")
                 fichier.write(contenu_final)
-            print(f"Contenu ajouté à la fin du fichier '{chemin_fichier}'.")
+            print(Fore.GREEN + f"Contenu ajouté à la fin du fichier '{chemin_fichier}'." + Fore.RESET)
     except Exception as e:
-        print(f"Une erreur est survenue lors de l'ajout du contenu : {e}")
+        print(Fore.RED + f"Une erreur est survenue lors de l'ajout du contenu : {e}" + Fore.RESET)
 
 def supprimer_fichier_ou_repertoire(repertoire_courant, chemin):
     chemin_complet = os.path.join(repertoire_courant, chemin)
     try:
         if os.path.isfile(chemin_complet):
             os.remove(chemin_complet)
-            print(f"Le fichier '{chemin_complet}' a été supprimé.")
+            print(Fore.YELLOW + f"Le fichier '{chemin_complet}' a été supprimé." + Fore.RESET)
         elif os.path.isdir(chemin_complet):
             contenu = os.listdir(chemin_complet)
             for element in contenu:
@@ -99,34 +100,35 @@ def supprimer_fichier_ou_repertoire(repertoire_courant, chemin):
                 else:
                     os.remove(element_chemin)
             os.rmdir(chemin_complet)
-            print(f"Le répertoire '{chemin_complet}' et son contenu ont été supprimés.")
+            print(Fore.YELLOW + f" Le répertoire '{chemin_complet}' et son contenu ont été supprimés." + Fore.RESET)
         else:
-            print(f"Le chemin '{chemin_complet}' n'existe pas.")
+            print(Fore.RED + f"Le chemin '{chemin_complet}' n'existe pas." + Fore.RESET)
     except Exception as e:
-        print(f"Une erreur est survenue lors de la suppression : {e}")
+        print(Fore.RED + f"Une erreur est survenue lors de la suppression : " + Fore.RESET + f"{e}")
 
 def creer_fichier_txt(chemin_fichier):
     try:
         chemin_absolu = os.path.join(repertoire_courant, chemin_fichier)
         with open(chemin_absolu, 'x') as fichier:
-            print(f"Le fichier '{chemin_fichier}' a été créé avec succès.")
+            print(Fore.BLUE + f"Le fichier '{chemin_fichier}' a été créé avec succès." + Fore.RESET)
     except FileExistsError:
-        print(f"Le fichier '{chemin_fichier}' existe déjà.")
+        print(Fore.RED + f"Le fichier '{chemin_fichier}' existe déjà." + Fore.RESET)
     except Exception as e:
-        print(f"Une erreur est survenue lors de la création du fichier : {e}")
+        print(Fore.RED + f"Une erreur est survenue lors de la création du fichier : " + Fore.RESET + f"{e}")
 
 def afficher_help():
-    print(f"\nRépertoire courant: {repertoire_courant}")
-    print("Menu:")
-    print("ls : Afficher le contenu du répertoire")
-    print("o <nom_fichier> : Ouvrir un fichier enfant du répertoire")
-    print("r : Revenir au répertoire parent")
-    print("RR : Pour changer la lettre de repertoire ")
-    print("RRls : pour afficher toute les lettre utiliser sur votre PC")
-    print("d : suprimer ")
-    print("e : pour creer un fichier txt")
-    print("w : pour ecrire a la fin d'un fichier")
-    print("q : Quitter")
+    print(Fore.GREEN + f"\nRépertoire courant: {repertoire_courant}")
+    print(Fore.RESET + f"Menu:")
+    print(Fore.BLUE + f"ls : Afficher le contenu du répertoire")
+    print(f"o <nom_fichier> : Ouvrir un fichier enfant du répertoire")
+    print(f"r : Revenir au répertoire parent")
+    print(f"RR <chemin_repertoire> : Charger un répertoire différent")
+    print(f" RRls : Afficher toutes les lettres de lecteur disponibles (Windows uniquement)")
+    print(f"d <chemin> : Supprimer un fichier ou un répertoire")
+    print(f"e <nom_fichier> : Créer un fichier texte")
+    print(f"w <nom_fichier> <contenu> : Écrire à la fin d'un fichier texte")
+    print(f"l <nom_fichier> : Lire le contenu d'un fichier texte")
+    print(f"q : Quitter" + Fore.RESET)
 
 if __name__ == "__main__":
     repertoire_courant = os.getcwd()
@@ -148,7 +150,7 @@ if __name__ == "__main__":
                 repertoire_courant = nouveau_repertoire
             afficher_contenu_repertoire(repertoire_courant)
         elif commande[0] == "q":
-            print("Au revoir !")
+            print(Fore.RED + f"fermeture" + Fore.RESET)
             break
         elif commande[0] == "d" and len(commande) > 1:
             chemin_a_supprimer = commande[1]
@@ -164,19 +166,19 @@ if __name__ == "__main__":
             if nom_fichier.endswith(".txt"):
                 creer_fichier_txt(nom_fichier)
             else:
-                print("Le nom du fichier doit se terminer par l'extension '.txt'.")
+                print(Fore.RED + f"Le nom du fichier doit se terminer par l'extension '.txt'." + Fore.RESET)
         elif commande[0] == "w" and len(commande) > 2:
             nom_fichier = commande[1]
             contenu = " ".join(commande[2:])
             if nom_fichier.endswith(".txt"):
                 ajouter_contenu_au_fichier(nom_fichier, contenu)
             else:
-                print("Le nom du fichier doit se terminer par l'extension '.txt'.")
+                print(Fore.RED + f"Le nom du fichier doit se terminer par l'extension '.txt'." + Fore.RESET)
         elif commande[0] == "l" and len(commande) > 1:
             nom_fichier = commande[1]
             if nom_fichier.endswith(".txt"):
                 afficher_contenu_fichier(nom_fichier)
             else:
-                print("Le nom du fichier doit se terminer par l'extension '.txt'.")
+                print(Fore.RED + f"Le nom du fichier doit se terminer par l'extension '.txt'." + Fore.RESET)
         else:
-            print("Commande invalide. Veuillez entrer une commande valide.")
+            print(Fore.RED + f"Commande invalide. Veuillez entrer une commande valide." + Fore.RESET)
